@@ -1,44 +1,1412 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#f4f6f2" />
-    <meta name="description" content="A neighborhood lost and found board to help belongings find their way home." />
-    <title>Foundly — Help good things find their way home</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <header class="site-header">
-      <a class="brand" href="#home" aria-label="Foundly home"><span class="brand-mark">f</span> foundly<span class="brand-dot">.</span></a>
-      <nav aria-label="Main navigation"><a href="#listings">Browse items</a><a class="nav-post" href="#post-item">＋ Post an item</a></nav>
-    </header>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Foundly | Community Lost & Found</title>
 
-    <main id="home">
-      <section class="hero">
-        <div class="hero-copy"><p class="eyebrow"><span class="sparkle">✳</span> A COMMUNITY LOST &amp; FOUND</p><h1>Lost something?<br /><span>Found something?</span></h1><p class="hero-description">Let’s help it find its way home. Share a listing and connect with people nearby.</p><a class="primary-link" href="#post-item">Post an item <span>↗</span></a></div>
-        <div class="hero-art" aria-hidden="true"><div class="sun"></div><div class="art-card"><span class="art-icon">⌕</span><span class="art-line"></span><span class="art-line short"></span><span class="art-heart">♥</span></div><span class="art-star star-one">✳</span><span class="art-star star-two">✦</span><span class="art-circle"></span></div>
-      </section>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap');
 
-      <section class="stats" aria-label="Community listing statistics"><article><span class="stat-icon mint">⌕</span><div><strong id="active-count">0</strong><span>active listings</span></div></article><article><span class="stat-icon peach">♡</span><div><strong id="resolved-count">0</strong><span>items reunited</span></div></article><p><span class="live-dot"></span> Every little lead helps</p></section>
+:root {
+    --green: #12613f;
+    --dark: #0b3e2c;
+    --light: #e8f3e5;
+    --cream: #faf9f0;
+    --gold: #f5c45d;
+    --ink: #18372c;
+    --muted: #7b8d81;
+    --white: #fff;
+    --border: #e4e9dc;
+}
 
-      <section class="featured" aria-labelledby="featured-title">
-        <div class="featured-heading"><div><p class="eyebrow">COMMUNITY SPOTLIGHT</p><h2 id="featured-title">Fresh finds &amp; latest leads</h2><p>Recent active listings from your neighborhood.</p></div><a href="#listings">Explore the board <span aria-hidden="true">↘</span></a></div>
-        <div class="featured-grid" id="featured-grid" aria-live="polite"></div>
-      </section>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-      <section class="board" id="listings" aria-labelledby="board-title">
-        <div class="section-heading"><div><p class="eyebrow">THE COMMUNITY BOARD</p><h2 id="board-title">Items looking for their people</h2></div><label class="search"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Search item, place, or details" aria-label="Search listings" /></label></div>
-        <div class="board-controls"><div class="filter-tabs" role="group" aria-label="Filter listings"><button class="filter-tab active" type="button" data-filter="all" aria-pressed="true">Everything <span id="all-tab-count">0</span></button><button class="filter-tab" type="button" data-filter="lost" aria-pressed="false">Lost</button><button class="filter-tab" type="button" data-filter="found" aria-pressed="false">Found</button><button class="filter-tab" type="button" data-filter="resolved" aria-pressed="false">Reunited</button></div><label class="sort-label">Sort by <select id="sort"><option value="recent">Newest first</option><option value="oldest">Oldest first</option></select></label></div>
-        <div class="listing-grid" id="listing-grid" aria-live="polite"></div>
-        <div class="empty-state" id="empty-state" hidden><span>⌕</span><strong id="empty-title">A clear sky on the board.</strong><p id="empty-copy">No listings yet. Post the first one and help a neighbor out.</p><a href="#post-item">Create a listing ↗</a></div>
-      </section>
+html { scroll-behavior: smooth; }
 
-      <section class="post-section" id="post-item" aria-labelledby="post-title"><div class="post-intro"><span class="post-icon">＋</span><p class="eyebrow">SPREAD THE WORD</p><h2 id="post-title">Add to the board</h2><p>Every detail brings an item one step closer to home.</p></div>
-        <form id="listing-form"><div class="form-grid"><label class="field"><span>I'm posting a</span><select id="type"><option value="lost">Lost item</option><option value="found">Found item</option></select></label><label class="field"><span>Item name</span><input id="item-name" type="text" maxlength="70" placeholder="e.g. Blue canvas backpack" required /></label><label class="field"><span>Category</span><select id="category"><option>Electronics</option><option>Keys &amp; cards</option><option>Bags &amp; clothing</option><option>Pets</option><option>Jewelry &amp; accessories</option><option>Documents</option><option>Other</option></select></label><label class="field"><span>Where?</span><input id="location" type="text" maxlength="100" placeholder="e.g. Riverside Park, north entrance" required /></label><label class="field"><span>Date</span><input id="date" type="date" required /></label><label class="field"><span>Contact email</span><input id="contact" type="email" maxlength="120" placeholder="you@example.com" required /></label><label class="field details-field"><span>Details <small>(optional)</small></span><textarea id="details" maxlength="300" rows="3" placeholder="Color, distinguishing marks, or anything that could help identify it"></textarea></label><button class="submit-button" type="submit">Post to the board <span>↗</span></button></div><p class="privacy-hint">Your contact email is shown only to people viewing your listing.</p></form>
-      </section>
-    </main>
-    <footer class="site-footer"><a class="brand" href="#home"><span class="brand-mark">f</span> foundly<span class="brand-dot">.</span></a><span>A little kindness goes a long way.</span><span>COMMUNITY, CONNECTED <b>·</b> <span id="year"></span></span></footer>
-    <script src="script.js"></script>
-  </body>
+body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+}
+
+button, input, select, textarea {
+    font: inherit;
+}
+
+button { cursor: pointer; }
+
+a { text-decoration: none; }
+
+.container {
+    max-width: 1180px;
+    margin: auto;
+    padding: 0 25px;
+}
+
+/* NAVIGATION */
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 12px 0;
+    background: rgba(255,255,255,.92);
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid var(--border);
+}
+
+.nav {
+    max-width: 1180px;
+    margin: auto;
+    padding: 0 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 25px;
+    font-weight: 900;
+    color: var(--dark);
+}
+
+.logo-icon {
+    width: 43px;
+    height: 43px;
+    border-radius: 15px;
+    background: var(--green);
+    display: grid;
+    place-items: center;
+    color: white;
+    font-size: 25px;
+}
+
+.logo span { color: #e99b48; }
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 27px;
+}
+
+.nav-links a {
+    color: #52675a;
+    font-size: 13px;
+    font-weight: 800;
+    transition: .2s;
+}
+
+.nav-links a:hover { color: var(--green); }
+
+.nav-button {
+    background: var(--green);
+    color: white !important;
+    padding: 12px 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px #12613f30;
+}
+
+.nav-button:hover {
+    background: var(--dark);
+}
+
+/* HERO */
+
+.hero {
+    position: relative;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 80% 20%, #d8ebd2 0, transparent 35%),
+        linear-gradient(120deg, #f8f9ef, #edf5e9);
+}
+
+.hero-inner {
+    max-width: 1180px;
+    min-height: 410px;
+    margin: auto;
+    padding: 55px 25px 35px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 20px;
+}
+
+.eyebrow {
+    color: var(--green);
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    margin-bottom: 15px;
+}
+
+.hero h1 {
+    font-size: clamp(42px, 5vw, 65px);
+    line-height: 1.05;
+    font-weight: 900;
+    letter-spacing: -2.5px;
+    color: #102e24;
+}
+
+.hero h1 span { color: #268557; }
+
+.hero-description {
+    max-width: 430px;
+    margin: 20px 0 25px;
+    font-size: 15px;
+    line-height: 1.8;
+    color: #61756a;
+}
+
+.primary-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 23px;
+    border-radius: 30px;
+    background: var(--green);
+    color: white;
+    font-weight: 900;
+    box-shadow: 0 8px 20px #12613f30;
+    transition: .3s;
+}
+
+.primary-btn:hover {
+    transform: translateY(-4px);
+    background: var(--dark);
+}
+
+/* HERO ART */
+
+.hero-art {
+    position: relative;
+    height: 310px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.art-circle {
+    position: absolute;
+    width: 285px;
+    height: 285px;
+    border-radius: 50%;
+    background: #d7ebd1;
+}
+
+.pet-card {
+    position: relative;
+    z-index: 2;
+    width: 370px;
+    padding: 24px;
+    border-radius: 28px;
+    background: white;
+    text-align: center;
+    box-shadow: 0 20px 45px #315b3a25;
+    transform: rotate(-3deg);
+    animation: floating 4s ease-in-out infinite;
+}
+
+@keyframes floating {
+    0%,100% { transform: translateY(0) rotate(-3deg); }
+    50% { transform: translateY(-12px) rotate(-1deg); }
+}
+
+.pets {
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    gap: 8px;
+    font-size: 92px;
+}
+
+.pet-card h2 {
+    background: #f5dcae;
+    color: #594027;
+    padding: 13px;
+    border-radius: 15px;
+    font-size: 19px;
+    line-height: 1.3;
+    margin-top: 10px;
+}
+
+.leaf {
+    position: absolute;
+    font-size: 40px;
+    animation: floating 5s infinite;
+}
+
+.leaf.one { left: 5%; bottom: 35px; }
+.leaf.two { right: 3%; top: 20px; }
+.leaf.three { right: 8%; bottom: 20px; }
+
+/* STATISTICS */
+
+.stats {
+    position: relative;
+    z-index: 3;
+    max-width: 1080px;
+    margin: -5px auto 45px;
+    padding: 18px 25px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 20px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    box-shadow: 0 10px 30px #244b3210;
+}
+
+.stat {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.stat-icon {
+    width: 53px;
+    height: 53px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 25px;
+    background: #e5f2e2;
+}
+
+.stat:nth-child(2) .stat-icon { background: #fff0dc; }
+.stat:nth-child(3) .stat-icon { background: #fff3c9; }
+
+.stat strong {
+    display: block;
+    font-size: 25px;
+    line-height: 1;
+}
+
+.stat small {
+    display: block;
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.stat-message {
+    font-weight: 800;
+    font-size: 13px;
+}
+
+/* COMMUNITY BOARD */
+
+.board {
+    padding-top: 5px;
+    padding-bottom: 55px;
+}
+
+.board-header {
+    background: var(--dark);
+    color: white;
+    padding: 22px 25px;
+    border-radius: 19px 19px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.board-title {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.board-title .paw { font-size: 32px; }
+
+.board-title small {
+    color: #f8d477;
+    font-weight: 900;
+    letter-spacing: 1px;
+    font-size: 10px;
+}
+
+.board-title h2 {
+    font-size: 24px;
+    font-weight: 900;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: white;
+    border-radius: 30px;
+    padding: 12px 17px;
+    width: 310px;
+    color: var(--dark);
+}
+
+.search-box input {
+    border: 0;
+    outline: 0;
+    width: 100%;
+    color: var(--ink);
+    background: transparent;
+    font-size: 12px;
+}
+
+.board-content {
+    padding: 18px 22px 23px;
+    background: white;
+    border: 1px solid var(--border);
+    border-top: 0;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 10px 30px #244b3208;
+}
+
+.board-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border);
+}
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.filter-btn {
+    padding: 10px 17px;
+    border: 0;
+    border-radius: 30px;
+    background: #eef3e9;
+    color: #4d6755;
+    font-size: 12px;
+    font-weight: 900;
+    transition: .2s;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+    background: var(--green);
+    color: white;
+}
+
+.filter-btn span { margin-left: 4px; }
+
+.sort {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--muted);
+}
+
+.sort select {
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: white;
+    color: var(--ink);
+    outline: 0;
+}
+
+/* LISTING CARDS */
+
+.listing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 17px;
+    padding-top: 20px;
+}
+
+.listing-card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: 19px;
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    background: #fffefa;
+    transition: .3s;
+    animation: appear .3s ease;
+}
+
+@keyframes appear {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.listing-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px #244b3214;
+    border-color: #b8d3ba;
+}
+
+.card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+.type-badge {
+    padding: 6px 11px;
+    border-radius: 20px;
+    background: #fff0df;
+    color: #b36d35;
+    font-size: 10px;
+    font-weight: 900;
+}
+
+.type-badge.found {
+    background: #e3f2e4;
+    color: #27724b;
+}
+
+.type-badge.resolved {
+    background: #edf0ec;
+    color: #69756d;
+}
+
+.category-label {
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.listing-card h3 {
+    margin: 17px 0 8px;
+    font-size: 18px;
+    overflow-wrap: anywhere;
+}
+
+.listing-details {
+    color: #728378;
+    font-size: 12px;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+.card-meta {
+    display: grid;
+    gap: 9px;
+    margin-top: auto;
+    padding: 18px 0 12px;
+    font-size: 11px;
+    color: #64766a;
+}
+
+.card-meta div {
+    display: flex;
+    gap: 8px;
+    overflow-wrap: anywhere;
+}
+
+.contact-link {
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 900;
+    overflow-wrap: anywhere;
+}
+
+.card-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    padding-top: 12px;
+    margin-top: 10px;
+}
+
+.card-actions button {
+    border: 0;
+    background: transparent;
+    font-size: 11px;
+    font-weight: 900;
+}
+
+.resolve-button { color: var(--green); }
+.remove-button { color: #b77969; }
+
+.card-actions button:hover { opacity: .65; }
+
+/* EMPTY STATE */
+
+.empty-state {
+    padding: 40px 15px;
+    text-align: center;
+    background: #fbfcf7;
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    margin-top: 20px;
+}
+
+.empty-state[hidden] { display: none; }
+
+.empty-art {
+    font-size: 85px;
+    margin-bottom: 10px;
+}
+
+.empty-state h3 {
+    font-size: 23px;
+    margin-bottom: 7px;
+}
+
+.empty-state p {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 18px;
+}
+
+.empty-state button {
+    border: 0;
+    border-radius: 25px;
+    background: var(--green);
+    color: white;
+    padding: 12px 22px;
+    font-weight: 900;
+}
+
+/* POST SECTION */
+
+.post-section {
+    display: grid;
+    grid-template-columns: .75fr 1.7fr;
+    gap: 30px;
+    padding: 30px;
+    margin-bottom: 45px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    box-shadow: 0 10px 30px #244b3210;
+}
+
+.post-intro {
+    background: linear-gradient(145deg, #176342, #0b3e2c);
+    color: white;
+    padding: 25px;
+    border-radius: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.post-icon {
+    font-size: 43px;
+    margin-bottom: 20px;
+}
+
+.post-intro small {
+    color: #f5d16f;
+    font-weight: 900;
+    letter-spacing: 1.3px;
+}
+
+.post-intro h2 {
+    font-size: 28px;
+    margin: 10px 0;
+    line-height: 1.15;
+}
+
+.post-intro p {
+    font-size: 13px;
+    line-height: 1.8;
+    color: #e0eee3;
+}
+
+.form-area { padding: 5px; }
+
+.form-heading {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 17px;
+}
+
+.form-heading strong { font-size: 14px; }
+
+.type-switch {
+    display: flex;
+    padding: 4px;
+    border-radius: 30px;
+    background: #eef3e9;
+}
+
+.type-switch button {
+    padding: 9px 18px;
+    border: 0;
+    border-radius: 25px;
+    background: transparent;
+    color: #52675a;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.type-switch button.active {
+    background: var(--green);
+    color: white;
+    box-shadow: 0 4px 10px #12613f30;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.field {
+    display: grid;
+    gap: 7px;
+}
+
+.field label {
+    color: #52675a;
+    font-size: 11px;
+    font-weight: 900;
+}
+
+.field input,
+.field select,
+.field textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #dfe6da;
+    border-radius: 11px;
+    background: #fffefa;
+    outline: none;
+    color: var(--ink);
+    font-size: 12px;
+    transition: .2s;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+    border-color: #4d9a69;
+    box-shadow: 0 0 0 3px #12613f15;
+}
+
+.field textarea {
+    resize: vertical;
+    min-height: 65px;
+}
+
+.full { grid-column: 1 / -1; }
+
+.submit-button {
+    width: 100%;
+    border: 0;
+    border-radius: 30px;
+    padding: 14px;
+    background: var(--green);
+    color: white;
+    font-weight: 900;
+    font-size: 13px;
+    transition: .25s;
+}
+
+.submit-button:hover {
+    background: var(--dark);
+    transform: translateY(-2px);
+}
+
+.privacy {
+    text-align: center;
+    color: var(--muted);
+    font-size: 10px;
+    margin-top: 10px;
+}
+
+/* FOOTER */
+
+footer {
+    border-top: 1px solid var(--border);
+    background: #f2f5e9;
+    padding: 24px 0;
+}
+
+.footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.footer-inner p {
+    font-size: 12px;
+    color: #61766a;
+    font-weight: 800;
+}
+
+.footer-inner small {
+    font-size: 10px;
+    color: #819086;
+    font-weight: 800;
+}
+
+/* RESPONSIVE */
+
+@media(max-width: 850px) {
+    .hero-inner { grid-template-columns: 1fr 1fr; }
+    .pet-card { width: 290px; }
+    .pets { font-size: 75px; }
+    .listing-grid { grid-template-columns: repeat(2,1fr); }
+    .post-section { grid-template-columns: 1fr; }
+    .post-intro { min-height: 200px; }
+    .stats { margin-left: 20px; margin-right: 20px; }
+}
+
+@media(max-width: 600px) {
+    .nav { padding: 0 15px; }
+    .logo { font-size: 20px; }
+    .logo-icon { width: 36px; height: 36px; }
+
+    .nav-links { gap: 12px; }
+    .nav-links a { font-size: 10px; }
+    .nav-links a:nth-child(3),
+    .nav-links a:nth-child(4) { display: none; }
+
+    .nav-button { padding: 10px 12px; }
+
+    .hero-inner {
+        grid-template-columns: 1fr;
+        padding: 40px 20px 20px;
+    }
+
+    .hero h1 { font-size: 44px; }
+    .hero-description { font-size: 13px; }
+
+    .hero-art { height: 250px; }
+    .pet-card { width: 290px; padding: 17px; }
+    .pets { font-size: 72px; }
+
+    .stats {
+        margin: 0 13px 35px;
+        padding: 15px;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 15px;
+    }
+
+    .stat { gap: 8px; }
+    .stat-icon { width: 39px; height: 39px; font-size: 19px; }
+    .stat strong { font-size: 20px; }
+    .stat small { font-size: 10px; }
+    .stat-message { font-size: 11px; }
+
+    .container { padding: 0 14px; }
+
+    .board-header {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 18px;
+    }
+
+    .board-title h2 { font-size: 19px; }
+    .search-box { width: 100%; }
+
+    .board-content { padding: 15px 12px; }
+
+    .board-controls {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .filters { gap: 5px; }
+    .filter-btn { padding: 9px 11px; font-size: 10px; }
+
+    .sort { align-self: flex-end; }
+
+    .listing-grid { grid-template-columns: 1fr; }
+
+    .post-section {
+        padding: 15px;
+        gap: 18px;
+    }
+
+    .post-intro { padding: 20px; }
+
+    .form-grid { gap: 10px; }
+    .field input,
+    .field select,
+    .field textarea { font-size: 11px; padding: 10px; }
+
+    .form-heading { gap: 8px; }
+    .form-heading strong { width: 100%; }
+
+    .type-switch button { padding: 8px 12px; font-size: 10px; }
+
+    .footer-inner {
+        justify-content: center;
+        text-align: center;
+    }
+}
+
+@media(max-width:370px) {
+    .hero h1 { font-size: 37px; }
+    .nav-links { gap: 7px; }
+    .nav-links a { font-size: 9px; }
+    .form-grid { grid-template-columns: 1fr; }
+    .full { grid-column: auto; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVIGATION -->
+<header>
+    <div class="nav">
+        <a href="#" class="logo">
+            <div class="logo-icon">🐾</div>
+            Foundly<span>.</span>
+        </a>
+
+        <nav class="nav-links">
+            <a href="#">⌂ Home</a>
+            <a href="#listings">▣ Browse Items</a>
+            <a href="#about">♥ About</a>
+            <a href="#community">Community</a>
+            <a href="#post" class="nav-button">＋ Post an Item</a>
+        </nav>
+    </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="home">
+    <div class="hero-inner">
+        <div>
+            <p class="eyebrow">✨ A COMMUNITY LOST & FOUND</p>
+
+            <h1>
+                Lost something?<br>
+                <span>Found</span> something?
+            </h1>
+
+            <p class="hero-description">
+                Let's help it find its way home. Share a listing
+                and connect with people nearby.
+            </p>
+
+            <a href="#post" class="primary-btn">
+                ➤ Post an Item →
+            </a>
+        </div>
+
+        <div class="hero-art">
+            <div class="art-circle"></div>
+            <span class="leaf one">🌿</span>
+            <span class="leaf two">🍃</span>
+            <span class="leaf three">🌱</span>
+
+            <div class="pet-card">
+                <div class="pets">
+                    <span>🐶</span>
+                    <span>🐱</span>
+                </div>
+                <h2>Together, we can bring them home ♡</h2>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- STATISTICS -->
+<div class="container">
+    <section class="stats">
+        <div class="stat">
+            <div class="stat-icon">👥</div>
+            <div>
+                <strong id="active-count">0</strong>
+                <small>Active Listings</small>
+            </div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-icon">🤝</div>
+            <div>
+                <strong id="resolved-count">0</strong>
+                <small>Items Reunited</small>
+            </div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-icon">⭐</div>
+            <div class="stat-message">Every little lead helps ♡</div>
+        </div>
+    </section>
+</div>
+
+<!-- COMMUNITY BOARD -->
+<section class="board container" id="listings">
+
+    <div class="board-header">
+        <div class="board-title">
+            <span class="paw">🐾</span>
+            <div>
+                <small>THE COMMUNITY BOARD</small>
+                <h2>Items looking for their people</h2>
+            </div>
+        </div>
+
+        <div class="search-box">
+            🔍
+            <input id="search" type="search"
+                placeholder="Search listings...">
+        </div>
+    </div>
+
+    <div class="board-content">
+
+        <div class="board-controls">
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">
+                    All Items <span id="all-count">0</span>
+                </button>
+
+                <button class="filter-btn" data-filter="lost">
+                    Lost <span id="lost-count">0</span>
+                </button>
+
+                <button class="filter-btn" data-filter="found">
+                    Found <span id="found-count">0</span>
+                </button>
+
+                <button class="filter-btn" data-filter="resolved">
+                    Reunited <span id="reunited-count">0</span>
+                </button>
+            </div>
+
+            <div class="sort">
+                Sort by:
+                <select id="sort">
+                    <option value="newest">Newest first</option>
+                    <option value="oldest">Oldest first</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="listing-grid" id="listing-grid"></div>
+
+        <div class="empty-state" id="empty-state">
+            <div class="empty-art">📦🌱</div>
+            <h3 id="empty-title">A clear sky on the board.</h3>
+            <p id="empty-copy">
+                No listings yet. Post the first one and help a neighbor out.
+            </p>
+            <button onclick="document.getElementById('post').scrollIntoView({behavior:'smooth'})">
+                ＋ Post an Item
+            </button>
+        </div>
+
+    </div>
+</section>
+
+<!-- POST SECTION -->
+<section class="post-section container" id="post">
+
+    <div class="post-intro" id="about">
+        <div class="post-icon">📣</div>
+        <small>SPREAD THE WORD</small>
+        <h2>Add to the board</h2>
+        <p>
+            Every detail brings an item one step closer to home.
+            Your small action can make someone's day.
+        </p>
+        <div style="font-size:35px;margin-top:20px">🌿 💛</div>
+    </div>
+
+    <div class="form-area">
+        <form id="listing-form">
+
+            <div class="form-heading">
+                <strong>I'm posting a</strong>
+
+                <div class="type-switch">
+                    <button type="button" class="active" data-type="lost">
+                        Lost item
+                    </button>
+
+                    <button type="button" data-type="found">
+                        Found item
+                    </button>
+                </div>
+            </div>
+
+            <input type="hidden" id="type" value="lost">
+
+            <div class="form-grid">
+
+                <div class="field">
+                    <label for="item-name">Item name *</label>
+                    <input id="item-name" required
+                        placeholder="e.g. Black wallet">
+                </div>
+
+                <div class="field">
+                    <label for="category">Category *</label>
+                    <select id="category" required>
+                        <option value="">Select category</option>
+                        <option>Electronics</option>
+                        <option>Keys & Cards</option>
+                        <option>Bags & Clothing</option>
+                        <option>Pets</option>
+                        <option>Jewelry & Accessories</option>
+                        <option>Documents</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="location">Where? *</label>
+                    <input id="location" required
+                        placeholder="Location where it was lost/found">
+                </div>
+
+                <div class="field">
+                    <label for="date">Date *</label>
+                    <input id="date" type="date" required>
+                </div>
+
+                <div class="field full">
+                    <label for="contact">Contact email *</label>
+                    <input id="contact" type="email" required
+                        placeholder="yourname@email.com">
+                </div>
+
+                <div class="field full">
+                    <label for="details">Details (optional)</label>
+                    <textarea id="details"
+                        placeholder="Describe the item, its color, appearance, or other important details..."></textarea>
+                </div>
+
+                <div class="full">
+                    <button type="submit" class="submit-button">
+                        ➤ Post to the board ↗
+                    </button>
+                </div>
+
+            </div>
+
+            <p class="privacy">
+                🔒 Your contact email is shown only to people viewing your listing.
+            </p>
+        </form>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="community">
+    <div class="container footer-inner">
+        <a href="#" class="logo">
+            <div class="logo-icon">🐾</div>
+            Foundly<span>.</span>
+        </a>
+
+        <p>A little kindness goes a long way. ♡</p>
+
+        <small>COMMUNITY, CONNECTED · <span id="year"></span></small>
+    </div>
+</footer>
+
+<script>
+// =====================================
+// FOUNDLY - COMMUNITY LOST & FOUND
+// =====================================
+
+let listings = [];
+
+try {
+    listings = JSON.parse(localStorage.getItem('foundly-listings')) || [];
+    if (!Array.isArray(listings)) listings = [];
+} catch {
+    listings = [];
+}
+
+let activeFilter = 'all';
+let currentType = 'lost';
+
+const grid = document.getElementById('listing-grid');
+const search = document.getElementById('search');
+const sort = document.getElementById('sort');
+const form = document.getElementById('listing-form');
+
+const today = new Date().toISOString().slice(0, 10);
+document.getElementById('date').value = today;
+document.getElementById('year').textContent = new Date().getFullYear();
+
+function saveListings() {
+    localStorage.setItem('foundly-listings', JSON.stringify(listings));
+}
+
+// SWITCH LOST / FOUND
+
+document.querySelectorAll('.type-switch button').forEach(button => {
+    button.addEventListener('click', () => {
+        currentType = button.dataset.type;
+
+        document.querySelectorAll('.type-switch button').forEach(btn => {
+            btn.classList.toggle('active', btn === button);
+        });
+
+        document.getElementById('type').value = currentType;
+    });
+});
+
+// FILTER BUTTONS
+
+document.querySelectorAll('.filter-btn').forEach(button => {
+    button.addEventListener('click', () => {
+        activeFilter = button.dataset.filter;
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.classList.toggle('active', btn === button);
+        });
+
+        render();
+    });
+});
+
+// CREATE CARD
+
+function makeCard(item) {
+    const card = document.createElement('article');
+    card.className = 'listing-card';
+
+    const badge = document.createElement('div');
+    badge.className = 'card-top';
+
+    const typeBadge = document.createElement('span');
+    typeBadge.className = 'type-badge ' +
+        (item.resolved ? 'resolved' : item.type);
+
+    typeBadge.textContent = item.resolved
+        ? 'REUNITED'
+        : item.type.toUpperCase();
+
+    const category = document.createElement('span');
+    category.className = 'category-label';
+    category.textContent = item.category;
+
+    badge.append(typeBadge, category);
+
+    const title = document.createElement('h3');
+    title.textContent = item.name;
+
+    const details = document.createElement('p');
+    details.className = 'listing-details';
+    details.textContent = item.details || 'No additional details provided.';
+
+    const meta = document.createElement('div');
+    meta.className = 'card-meta';
+
+    const location = document.createElement('div');
+    location.textContent = '📍 ' + item.location;
+
+    const date = document.createElement('div');
+    date.textContent = '📅 ' + item.date;
+
+    const contact = document.createElement('a');
+    contact.className = 'contact-link';
+    contact.textContent = '✉ Contact owner';
+    contact.href = 'mailto:' + item.contact;
+
+    meta.append(location, date);
+
+    const actions = document.createElement('div');
+    actions.className = 'card-actions';
+
+    if (!item.resolved) {
+        const resolve = document.createElement('button');
+        resolve.className = 'resolve-button';
+        resolve.textContent = '✓ Mark reunited';
+
+        resolve.addEventListener('click', () => {
+            item.resolved = true;
+            saveListings();
+            render();
+        });
+
+        actions.append(resolve);
+    } else {
+        const thanks = document.createElement('span');
+        thanks.className = 'category-label';
+        thanks.textContent = '💚 Thanks for helping!';
+        actions.append(thanks);
+    }
+
+    const remove = document.createElement('button');
+    remove.className = 'remove-button';
+    remove.textContent = 'Remove';
+
+    remove.addEventListener('click', () => {
+        if (!confirm('Remove this listing?')) return;
+
+        listings = listings.filter(listing => listing.id !== item.id);
+        saveListings();
+        render();
+    });
+
+    actions.append(remove);
+
+    card.append(badge, title, details, meta, contact, actions);
+
+    return card;
+}
+
+// UPDATE STATISTICS AND DISPLAY
+
+function render() {
+    const query = search.value.trim().toLowerCase();
+
+    const active = listings.filter(item => !item.resolved).length;
+    const reunited = listings.filter(item => item.resolved).length;
+    const lost = listings.filter(item => item.type === 'lost' && !item.resolved).length;
+    const found = listings.filter(item => item.type === 'found' && !item.resolved).length;
+
+    document.getElementById('active-count').textContent = active;
+    document.getElementById('resolved-count').textContent = reunited;
+
+    document.getElementById('all-count').textContent = listings.length;
+    document.getElementById('lost-count').textContent = lost;
+    document.getElementById('found-count').textContent = found;
+    document.getElementById('reunited-count').textContent = reunited;
+
+    let shown = listings.filter(item => {
+        const matchesFilter =
+            activeFilter === 'all' ||
+            (activeFilter === 'resolved'
+                ? item.resolved
+                : !item.resolved && item.type === activeFilter);
+
+        const searchable = [
+            item.name,
+            item.location,
+            item.category,
+            item.details,
+            item.type
+        ].join(' ').toLowerCase();
+
+        return matchesFilter && searchable.includes(query);
+    });
+
+    shown.sort((a, b) =>
+        sort.value === 'oldest'
+            ? a.createdAt - b.createdAt
+            : b.createdAt - a.createdAt
+    );
+
+    grid.replaceChildren();
+
+    shown.forEach(item => {
+        grid.append(makeCard(item));
+    });
+
+    const empty = shown.length === 0;
+    const emptyState = document.getElementById('empty-state');
+
+    emptyState.hidden = !empty;
+
+    if (listings.length === 0) {
+        document.getElementById('empty-title').textContent =
+            'A clear sky on the board.';
+
+        document.getElementById('empty-copy').textContent =
+            'No listings yet. Post the first one and help a neighbor out.';
+    } else {
+        document.getElementById('empty-title').textContent =
+            'No matches this time.';
+
+        document.getElementById('empty-copy').textContent =
+            'Try another filter or search with different words.';
+    }
+}
+
+// SEARCH AND SORT
+
+search.addEventListener('input', render);
+sort.addEventListener('change', render);
+
+// SUBMIT LISTING
+
+form.addEventListener('submit', event => {
+    event.preventDefault();
+
+    const name = document.getElementById('item-name').value.trim();
+    const location = document.getElementById('location').value.trim();
+    const contact = document.getElementById('contact').value.trim();
+    const date = document.getElementById('date').value;
+    const category = document.getElementById('category').value;
+    const details = document.getElementById('details').value.trim();
+
+    if (!name || !location || !contact || !date || !category) {
+        alert('Please complete all required fields.');
+        return;
+    }
+
+    const newListing = {
+        id: Date.now() + '-' + Math.random().toString(16).slice(2),
+        type: currentType,
+        name,
+        category,
+        location,
+        date,
+        contact,
+        details,
+        resolved: false,
+        createdAt: Date.now()
+    };
+
+    listings.push(newListing);
+
+    saveListings();
+
+    form.reset();
+
+    currentType = 'lost';
+    document.getElementById('type').value = 'lost';
+    document.getElementById('date').value = today;
+
+    document.querySelectorAll('.type-switch button').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.type === 'lost');
+    });
+
+    activeFilter = 'all';
+    search.value = '';
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.filter === 'all');
+    });
+
+    render();
+
+    alert('Your listing has been posted successfully! 💚');
+
+    document.getElementById('listings').scrollIntoView({
+        behavior: 'smooth'
+    });
+});
+
+// INITIAL RENDER
+
+render();
+
+</script>
+</body>
 </html>
+
